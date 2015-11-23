@@ -26,6 +26,10 @@
             android:name="com.example.reportes2.Aula"
             android:label="@string/title_activity_aula" >
         </activity>
+        <activity
+            android:name="com.example.reportes2.Registro"
+            android:label="@string/title_activity_registro" >
+        </activity>
     </application>
 
 </manifest>

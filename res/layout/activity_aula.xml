@@ -14,12 +14,82 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Aula" >
 
-  <ExpandableListView
-        android:id="@+id/lvAula"
+    
+    
+    <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:id="@+id/ly1"
         >
+        <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aula"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
+        android:layout_weight="2" 
+            />
+        
+        <EditText 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Ej. 5G-204"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:layout_weight="8"
+            />
+        
+        
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:orientation="vertical"
+        android:weightSum="10"
+        android:id="@+id/ly2"
+        android:layout_below="@+id/ly1">
+        
+         <ExpandableListView
+             android:id="@+id/lvAula"
+             android:layout_width="match_parent"
+             android:layout_height="259dp" >
 
     </ExpandableListView>
+
+          <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Descripción:"
+        android:textSize="16sp"
+        android:textColor="#ffffff"
+        android:layout_weight="2" 
+            />
+        
+        <EditText 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:lines="2"
+            />
+        
+       <Button
+                        android:id="@+id/btEnviar"
+                        style="?android:textAppearanceSmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#20626c"
+                        android:textSize="16sp"
+                        android:padding="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="ENVIAR REPORTE"
+                        android:textColor="#ffffffff"
+                        android:textStyle="bold" />
+         
+         
+    </LinearLayout>
+ 
     
 </RelativeLayout>

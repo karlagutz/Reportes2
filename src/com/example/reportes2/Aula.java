@@ -7,8 +7,12 @@ import java.util.List;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.view.Menu;
 import android.view.View;
+
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
@@ -17,8 +21,9 @@ import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.Toast;
 
 
-public class Aula extends Activity implements OnChildClickListener {
+public class Aula extends Activity implements OnClickListener {
 	ExpandableListAdapter listAdapter;
+	Button enviar;
 	ExpandableListView expListView;
 	List<String> listDataHeader;
 	HashMap<String, List<String>> listDataChild;
@@ -31,7 +36,9 @@ public class Aula extends Activity implements OnChildClickListener {
 		setContentView(R.layout.activity_aula);
 		
 		 expListView = (ExpandableListView) findViewById(R.id.lvAula);
-	
+		 enviar = (Button) findViewById(R.id.btEnviar);
+		 
+		 enviar.setOnClickListener((android.view.View.OnClickListener) this);
 		 // preparing list data
 	        prepareListData();
 	 
@@ -111,30 +118,35 @@ public class Aula extends Activity implements OnChildClickListener {
         List<String> Infraestructura = new ArrayList<String>();
         Infraestructura.add("Iluminación");
         Infraestructura.add("Electricidad");
-        Infraestructura.add("The Godfather: Part II");
-        Infraestructura.add("Pulp Fiction");
-        Infraestructura.add("The Good, the Bad and the Ugly");
-        Infraestructura.add("The Dark Knight");
-        Infraestructura.add("12 Angry Men");
+        Infraestructura.add("Aire Acondicionado");
+        Infraestructura.add("Mesabancos/Sillas");
+        Infraestructura.add("Mesa/Escritorio");
+        Infraestructura.add("Ventanas");
+        Infraestructura.add("Contacto Eléctrico");
+        Infraestructura.add("Llave de Aula");
  
-        List<String> nowShowing = new ArrayList<String>();
-        nowShowing.add("The Conjuring");
-        nowShowing.add("Despicable Me 2");
-        nowShowing.add("Turbo");
-        nowShowing.add("Grown Ups 2");
-        nowShowing.add("Red 2");
-        nowShowing.add("The Wolverine");
+        List<String> Limpieza = new ArrayList<String>();
+        Limpieza.add("Aseo de aula");
+        Limpieza.add("Contenedor de basura");
+        Limpieza.add("Pintarrón / Pizarrón");
+
  
-        List<String> comingSoon = new ArrayList<String>();
-        comingSoon.add("2 Guns");
-        comingSoon.add("The Smurfs 2");
-        comingSoon.add("The Spectacular Now");
-        comingSoon.add("The Canyons");
-        comingSoon.add("Europa Report");
+        List<String> computo = new ArrayList<String>();
+        computo.add("Configuración de Red");
+        computo.add("Internet");
+        computo.add("Formateo");
+        computo.add("Instalación de Software");
+        computo.add("Instalación Equipo de Computo");
+        computo.add("Mantenimiento preventivo");
+        computo.add("Mantenimiento correctivo");
+        computo.add("Mantenimiento de Impresora");
+        computo.add("Mantenimiento de Proyector");
+        computo.add("Reparación de cables");
+        
  
         listDataChild.put(listDataHeader.get(0), Infraestructura); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);
+        listDataChild.put(listDataHeader.get(1), Limpieza);
+        listDataChild.put(listDataHeader.get(2), computo);
     }
 
 	@Override
@@ -144,11 +156,16 @@ public class Aula extends Activity implements OnChildClickListener {
 		return true;
 	}
 
-	@Override
 	public boolean onChildClick(ExpandableListView arg0, View arg1, int arg2,
 			int arg3, long arg4) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void onClick(DialogInterface dialog, int which) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
