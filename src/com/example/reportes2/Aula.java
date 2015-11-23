@@ -218,7 +218,7 @@ import android.widget.Toast;
 		        itSend.setType("plain/text");
 		 
 		        //colocamos los datos para el envío
-		        itSend.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"javiersaot@gmail.com"});
+		        itSend.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"reportes.unison@gmail.com"});
 		        itSend.putExtra(android.content.Intent.EXTRA_SUBJECT, "Sistema De Fallas");
 		        itSend.putExtra(android.content.Intent.EXTRA_TEXT, mensaje);
 		        startActivity(itSend);
