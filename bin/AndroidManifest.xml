@@ -24,11 +24,11 @@
         </activity>
         <activity
             android:name="com.example.reportes2.Aula"
-            android:label="@string/title_activity_aula" >
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.example.reportes2.Registro"
-            android:label="@string/title_activity_registro" >
+            android:label="@string/app_name" >
         </activity>
     </application>
 

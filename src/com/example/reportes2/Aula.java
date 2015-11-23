@@ -5,16 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
@@ -23,7 +26,7 @@ import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.Toast;
 
 
-public class Aula extends Activity implements android.view.View.OnClickListener {
+@SuppressLint("NewApi") public class Aula extends Activity implements android.view.View.OnClickListener {
 	ExpandableListAdapter listAdapter;
 	Button enviar;
 	ExpandableListView expListView;
@@ -32,6 +35,8 @@ public class Aula extends Activity implements android.view.View.OnClickListener 
 	Context con = this;
 	String mensaje;
     ArrayList<String> selecteds;
+    EditText aula,desc;
+    
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +47,10 @@ public class Aula extends Activity implements android.view.View.OnClickListener 
 		
 		 expListView = (ExpandableListView) findViewById(R.id.lvAula);
 		 enviar = (Button) findViewById(R.id.btEnviar);
-		 Log.d("simon", "hay baa");
+		 aula = (EditText)findViewById(R.id.etAula);
+		 desc = (EditText)findViewById(R.id.etDescripcion);
+		 
+		 
 		 enviar.setOnClickListener(this);
 		 // preparing list data
 	        prepareListData();
@@ -68,9 +76,7 @@ public class Aula extends Activity implements android.view.View.OnClickListener 
 	        	 
 	            @Override
 	            public void onGroupExpand(int groupPosition) {
-	                Toast.makeText(getApplicationContext(),
-	                        listDataHeader.get(groupPosition) + " Expanded",
-	                        Toast.LENGTH_SHORT).show();
+	                
 	            }
 	        });
 	        
@@ -79,9 +85,7 @@ public class Aula extends Activity implements android.view.View.OnClickListener 
 	 
 	            @Override
 	            public void onGroupCollapse(int groupPosition) {
-	                Toast.makeText(getApplicationContext(),
-	                        listDataHeader.get(groupPosition) + " Collapsed",
-	                        Toast.LENGTH_SHORT).show();
+	                
 	 
 	            }
 	        });
@@ -93,13 +97,19 @@ public class Aula extends Activity implements android.view.View.OnClickListener 
 						int groupPosition, int childPosition, long id) {
 					
 					CheckBox cb = (CheckBox)v.findViewById(R.id.lblListItem);
+				  
 					boolean selection = cb.isChecked();
 					String childString;
-					
+					childString = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
+					 
 					if (selection) {
 						cb.setChecked(false);
 					    childString = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
 						selecteds.remove(childString);
+						
+						int [][] ma = listAdapter.getMatriz();
+						ma[groupPosition][childPosition] = 0;
+						listAdapter.setMatriz(ma);
 						
 					} else {
 						cb.setChecked(true);
@@ -113,7 +123,12 @@ public class Aula extends Activity implements android.view.View.OnClickListener 
 		                                , Toast.LENGTH_SHORT)
 		                        .show();
 						selecteds.add(childString);
+						int [][] ma = listAdapter.getMatriz();
+						ma[groupPosition][childPosition] = 1;
+						listAdapter.setMatriz(ma);
 					}
+					
+					
 					return false;
 				}
 			});
@@ -179,17 +194,56 @@ public class Aula extends Activity implements android.view.View.OnClickListener 
 	
 	@Override
 	public void onClick(View v) {
+		
 		switch (v.getId()) {
 		case R.id.btEnviar:
-			mensaje = "Se le manda un comunicado ";
-			Object [] items  = selecteds.toArray();
-			for (int i = 0; i < items.length; i++) {
+			String aul = aula.getText().toString();
+			String des = desc.getText().toString();
+			if (aul.length() > 0) {
 				
+				mensaje = "El sistema de SuperReportesUni le manda un comunicado sobre " +
+							"problemas que se an detectado en el aula " + aul + ".\n" +
+							"A Continuacion un listado de los problemas: \n";
+				Object [] items  = selecteds.toArray();
+				for (int i = 0; i < items.length; i++) {
+					mensaje = mensaje + "\n" +  String.valueOf(items[i]) + ".";
+				}
+				mensaje = mensaje + "\n\n";
+				mensaje = mensaje + "Descripcion: \n\n" + des;
+				Log.d("mesaje",mensaje);
+				
+				Intent itSend = new Intent(android.content.Intent.ACTION_SEND);
+				 
+		        //vamos a enviar texto plano a menos que el checkbox esté marcado 
+		        itSend.setType("plain/text");
+		 
+		        //colocamos los datos para el envío
+		        itSend.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"javiersaot@gmail.com"});
+		        itSend.putExtra(android.content.Intent.EXTRA_SUBJECT, "Sistema De Fallas");
+		        itSend.putExtra(android.content.Intent.EXTRA_TEXT, mensaje);
+		        startActivity(itSend);
+		        cleanScreen();
+			} else {
+				
+				Toast t = Toast.makeText(this, "Introdusca Un Salon de clases", Toast.LENGTH_SHORT);
+				t.show();
 			}
 			
-			break;
 			
+			break;
 		}
+		
+	}
+	
+	public void cleanScreen(){
+		
+		aula.setText("");
+		desc.setText("");
+		int ma [][] = listAdapter.getMatriz();
+		listAdapter.fillMatrix(ma);
+		listAdapter.setMatriz(ma);
+		
+		
 		
 	}
 

@@ -17,5 +17,5 @@
        android:textColor="#ffffff"
        android:textSize="17sp"
        android:visibility="visible" />
-
+   
 </LinearLayout>
