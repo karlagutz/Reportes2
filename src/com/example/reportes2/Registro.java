@@ -2,6 +2,7 @@ package com.example.reportes2;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,7 +20,7 @@ public class Registro extends Activity implements OnClickListener {
 		nombre = (EditText) findViewById (R.id.etUsuario);
 		contra = (EditText) findViewById (R.id.etContra);
 		confirmar = (Button) findViewById (R.id.btConfirmar);
-
+		
 		confirmar.setOnClickListener(this);
 	}
 
@@ -33,7 +34,13 @@ public class Registro extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View arg0) {
-		// TODO Auto-generated method stub
+		switch (arg0.getId()) {
+		case R.id.btConfirmar:
+			Intent i = new Intent (this,MainActivity.class);
+			startActivity(i);
+			break;
+
+		}
 		
 	}
 

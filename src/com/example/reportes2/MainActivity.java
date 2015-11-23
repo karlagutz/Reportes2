@@ -3,6 +3,7 @@ package com.example.reportes2;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,7 +39,21 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View arg0) {
-		// TODO Auto-generated method stub
+		Intent i = null;
+		switch (arg0.getId()) {
+		case R.id.btEntrar:
+			
+		    i = new Intent (this,Aula.class);
+			startActivity(i);
+			break;
+		case R.id.tvRegistrar:
+			i = new Intent (this,Registro.class);
+			startActivity(i);		
+			break;
+
+		default:
+			break;
+		}
 		
 	}
 

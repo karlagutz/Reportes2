@@ -9,10 +9,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
@@ -21,24 +23,27 @@ import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.Toast;
 
 
-public class Aula extends Activity implements OnClickListener {
+public class Aula extends Activity implements android.view.View.OnClickListener {
 	ExpandableListAdapter listAdapter;
 	Button enviar;
 	ExpandableListView expListView;
 	List<String> listDataHeader;
 	HashMap<String, List<String>> listDataChild;
 	Context con = this;
-	
+	String mensaje;
+    ArrayList<String> selecteds;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_aula);
 		
+		selecteds = new ArrayList<String>();
+		
 		 expListView = (ExpandableListView) findViewById(R.id.lvAula);
 		 enviar = (Button) findViewById(R.id.btEnviar);
-		 
-		 enviar.setOnClickListener((android.view.View.OnClickListener) this);
+		 Log.d("simon", "hay baa");
+		 enviar.setOnClickListener(this);
 		 // preparing list data
 	        prepareListData();
 	 
@@ -81,24 +86,39 @@ public class Aula extends Activity implements OnClickListener {
 	            }
 	        });
 	        
-	        // Listview on child click listener
 	        expListView.setOnChildClickListener(new OnChildClickListener() {
-	 
-	            @Override
-	            public boolean onChildClick(ExpandableListView parent, View v,
-	                    int groupPosition, int childPosition, long id) {
-	                // TODO Auto-generated method stub
-	                Toast.makeText(
-	                        getApplicationContext(),
-	                        listDataHeader.get(groupPosition)
-	                                + " : "
-	                                + listDataChild.get(
-	                                        listDataHeader.get(groupPosition)).get(
-	                                        childPosition), Toast.LENGTH_SHORT)
-	                        .show();
-	                return false;
-	            }
-	        });
+				
+				@Override
+				public boolean onChildClick(ExpandableListView parent, View v,
+						int groupPosition, int childPosition, long id) {
+					
+					CheckBox cb = (CheckBox)v.findViewById(R.id.lblListItem);
+					boolean selection = cb.isChecked();
+					String childString;
+					
+					if (selection) {
+						cb.setChecked(false);
+					    childString = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
+						selecteds.remove(childString);
+						
+					} else {
+						cb.setChecked(true);
+					    childString = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
+						Toast.makeText(
+		                        getApplicationContext(),
+		                        listDataHeader.get(groupPosition)
+		                                + " : "
+		                                +  childString
+		                                + " añadido a la lista"
+		                                , Toast.LENGTH_SHORT)
+		                        .show();
+						selecteds.add(childString);
+					}
+					return false;
+				}
+			});
+	        
+	        
 
 	}
 	
@@ -156,16 +176,23 @@ public class Aula extends Activity implements OnClickListener {
 		return true;
 	}
 
-	public boolean onChildClick(ExpandableListView arg0, View arg1, int arg2,
-			int arg3, long arg4) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	
 	@Override
-	public void onClick(DialogInterface dialog, int which) {
-		// TODO Auto-generated method stub
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.btEnviar:
+			mensaje = "Se le manda un comunicado ";
+			Object [] items  = selecteds.toArray();
+			for (int i = 0; i < items.length; i++) {
+				
+			}
+			
+			break;
+			
+		}
 		
 	}
+
+	
 
 }
